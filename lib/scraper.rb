@@ -9,12 +9,12 @@ class Scraper
   def get_page
     doc = Nokogiri::HTML(open("https://editorial.rottentomatoes.com/guide/best-netflix-movies-to-watch-right-now/"))
 
-    #doc.css(".row.countdown-item").each do |row|
-      #course = Course.new
-      #course.title = row.css(".article_movie_title h2 a").text
-      #course.rank = row.css(".countdown-index").text
-      #course.consensus = row.css(".info.critics-consensus").text.split("Critics Consensus:").join
-    #end
+    doc.css(".row.countdown-item").each do |row|
+      course = Course.new
+      course.title = row.css(".article_movie_title h2 a").text
+      course.rank = row.css(".countdown-index").text
+      course.consensus = row.css(".info.critics-consensus").text.split("Critics Consensus:").join
+    end
   end
 
   def get_courses
