@@ -7,28 +7,26 @@ require_relative './course.rb'
 class Scraper
 
   def get_page
+    doc = Nokogiri::HTML(open("https://editorial.rottentomatoes.com/guide/best-netflix-movies-to-watch-right-now/"))
 
-    Nokogiri::HTML(open("http://learn-co-curriculum.github.io/site-for-scraping/courses"))
-
-    #doc.css(".post").each do |post|
+    #doc.css(".row.countdown-item").each do |row|
       #course = Course.new
-      #course.title = post.css("h2").text
-      #course.schedule = post.css(".date").text
-      #course.description = post.css("p").text
+      #course.title = row.css(".article_movie_title h2 a").text
+      #course.rank = row.css(".countdown-index").text
+      #course.consensus = row.css(".info.critics-consensus").text.split("Critics Consensus:").join
     #end
-
   end
 
   def get_courses
-    self.get_page.css(".post")
+    self.get_page.css(".row.countdown-item")
   end
 
   def make_courses
-    self.get_courses.each do |post|
+    self.get_courses.each do |row|
       course = Course.new
-      course.title = post.css("h2").text
-      course.schedule = post.css(".date").text
-      course.description = post.css("p").text
+      course.rank = row.css(".countdown-index").text
+      course.title = row.css(".article_movie_title h2 a").text
+      course.consensus = row.css(".info.critics-consensus").text.split("Critics Consensus:").join
     end
   end
 
@@ -36,9 +34,10 @@ class Scraper
     self.make_courses
     Course.all.each do |course|
       if course.title
-        puts "Title: #{course.title}"
-        puts "  Schedule: #{course.schedule}"
-        puts "  Description: #{course.description}"
+        puts ""
+        puts "#{course.rank}    #{course.title}"
+        puts "Critics Consensus:    #{course.consensus}"
+        puts ""
       end
     end
   end
