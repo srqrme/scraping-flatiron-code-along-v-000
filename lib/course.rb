@@ -1,6 +1,6 @@
 
 class Course
-  attr_accessor :title, :rank, :consensus
+  attr_accessor :title, :rank, :consensus, :movie_url
 
   @@all = []
 
