@@ -28,6 +28,7 @@ class Scraper
       course.rank = row.css(".countdown-index").text
       course.title = row.css(".article_movie_title h2 a").text
       course.consensus = row.css(".info.critics-consensus").text.split("Critics Consensus:").join
+      course.movie_url = row.css(".article_movie_title div h2 a").attribute("href").value
     end
   end
 
